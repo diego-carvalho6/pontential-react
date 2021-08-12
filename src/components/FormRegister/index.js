@@ -1,5 +1,5 @@
 import Header from "../Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { VscLoading } from "react-icons/vsc";
 import Radio from "@material-ui/core/Radio";
@@ -7,7 +7,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DateFnsUtils from "@date-io/date-fns";
 import { format } from "date-fns";
-import { Link } from "react-scroll";
+import { useParams } from "react-router";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -17,7 +17,6 @@ import {
   BoxForm,
   BoxInput,
   BoxInputR,
-  BoxSubmit,
   DateInput,
   InputEnvio,
   Modal,
@@ -26,11 +25,13 @@ import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { Slide } from "react-awesome-reveal";
-const FormRegister = () => {
+const FormRegister = ({ developer }) => {
   const [selectedDate, setSelectedDate] = useState(
-    new Date("2000-01-01T21:11:54")
+    developer
+      ? new Date(developer.datanascimento)
+      : new Date("2000-01-01T21:11:54")
   );
-  const [valueForm, setValueForm] = useState("X");
+  const [valueForm, setValueForm] = useState(developer?.sexo || "X");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const [error, setError] = useState(false);
@@ -54,19 +55,29 @@ const FormRegister = () => {
     setLoading(!loading);
     data["sexo"] = valueForm;
     data["datanascimento"] = format(selectedDate, "dd/MM/yyyy");
-    console.log(selectedDate.getDay());
+    console.log(data.idade);
     console.log(data.datanascimento);
-
-    axios
-      .post("http://127.0.0.1:8000/developers", data)
-      .then((e) => {
-        setLoading(false);
-        history.push("/");
-      })
-      .catch((e) => {
-        setError(e);
-        setLoading(false);
-      });
+    developer
+      ? axios
+          .put(`http://127.0.0.1:8000/developers/${developer.id}`, data)
+          .then((e) => {
+            setLoading(false);
+            history.push("/");
+          })
+          .catch((e) => {
+            setError(e);
+            setLoading(false);
+          })
+      : axios
+          .post("http://127.0.0.1:8000/developers", data)
+          .then((e) => {
+            setLoading(false);
+            history.push("/");
+          })
+          .catch((e) => {
+            setError(e);
+            setLoading(false);
+          });
   };
 
   return (
@@ -87,7 +98,7 @@ const FormRegister = () => {
           rules={{ required: true }}
           name="nome"
           control={control}
-          defaultValue=""
+          defaultValue={developer?.nome}
           render={({ field }) => (
             <BoxInput>
               <TextField required label="Nome" variant="outlined" {...field} />
@@ -98,6 +109,7 @@ const FormRegister = () => {
           rules={{ required: true }}
           name="idade"
           control={control}
+          defaultValue={developer?.idade}
           render={({ field }) => (
             <BoxInput>
               <TextField
@@ -105,6 +117,7 @@ const FormRegister = () => {
                 required
                 label="Idade"
                 variant="outlined"
+                value={developer?.idade}
                 {...field}
               />
             </BoxInput>
@@ -114,6 +127,7 @@ const FormRegister = () => {
           rules={{ required: true }}
           name="hobby"
           control={control}
+          defaultValue={developer?.hobby}
           render={({ field }) => (
             <BoxInput>
               <TextField required label="Hobby" variant="outlined" {...field} />

@@ -37,6 +37,7 @@ export const BoxPage = styled.div`
 `;
 
 export const BoxContent = styled.div`
+  position: relative;
   text-align: center;
   max-width: 450px;
   min-width: 280px;
@@ -131,14 +132,14 @@ export const NothingHereBox = styled.div`
   font-family: "Times New Roman", Times, serif;
 `;
 
-export const Modal = styled.div`
+export const ModalLoading = styled.div`
   height: ${window.screen.height}px;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.4);
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
-  z-index: 1;
+  z-index: 10;
   div {
     position: absolute;
     left: 50%;
@@ -158,5 +159,29 @@ export const Modal = styled.div`
       height: 100px;
       color: blue;
     }
+  }
+`;
+
+export const TrashButton = styled.button`
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 50%;
+  padding: 0.5rem;
+  position: absolute;
+  right: 0;
+
+  svg {
+    background-color: ${(props) =>
+      props.sucess === "M"
+        ? "#d4fff8"
+        : props.sucess === "F"
+        ? "#FAF2C2"
+        : "#F9C0FA"};
+
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
   }
 `;
