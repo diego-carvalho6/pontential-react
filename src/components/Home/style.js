@@ -1,7 +1,26 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
 import { Button } from "@material-ui/core";
 
+const rotate = keyframes`
+
+    from {
+      transform: rotate(0deg)
+    }
+    to {
+      transform: rotate(360deg)
+    }
+  
+`;
 export const Box = styled.div`
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const BoxPage = styled.div`
   display: flex;
   width: 100%;
   flex-wrap: wrap;
@@ -11,17 +30,15 @@ export const Box = styled.div`
     color: black;
     margin: 10px;
     border: 2px solid;
-
-    svg {
-      width: 50px;
-      height: 50px;
-    }
+  }
+  div:hover {
+    opacity: 0.8;
   }
 `;
 
 export const BoxContent = styled.div`
   text-align: center;
-  max-width: 500px;
+  max-width: 450px;
   min-width: 280px;
   width: 100%;
   overflow-y: auto;
@@ -51,10 +68,15 @@ export const BoxContent = styled.div`
       : props.sucess === "F"
       ? "#ECFA15"
       : "#D61FF4"};
+
+  opacity: 0.9;
+  button:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
 `;
 export const BoxGeral = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1500px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,15 +93,30 @@ export const Sup = styled.h2`
   text-align: center;
   border-radius: 20px;
   background-color: ${(props) => (props.trial ? "#42f5a4" : "#f54242")};
+  svg {
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 export const ButtonPage = styled.button`
   outline: 0;
   border: 0;
   cursor: pointer;
-  background-color: white;
-  h2:hover {
-    opacity: 0.8;
+  background-color: transparent;
+  border-radius: 50%;
+  padding: 0.5rem;
+
+  svg {
+    background-color: ${(props) =>
+      props.sucess === "M"
+        ? "#d4fff8"
+        : props.sucess === "F"
+        ? "#FAF2C2"
+        : "#F9C0FA"};
+
+    width: 25px;
+    height: 25px;
   }
 `;
 
@@ -92,4 +129,34 @@ export const NothingHereBox = styled.div`
   opacity: 0.4;
   font-size: 1.5rem;
   font-family: "Times New Roman", Times, serif;
+`;
+
+export const Modal = styled.div`
+  height: ${window.screen.height}px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+
+    svg {
+      animation-name: ${rotate};
+      animation-iteration-count: infinite;
+      animation-duration: 1s;
+      animation-timing-function: ease-in-out;
+      animation-direction: normal;
+      transform: rotateZ(360deg);
+      width: 100px;
+      height: 100px;
+      color: blue;
+    }
+  }
 `;

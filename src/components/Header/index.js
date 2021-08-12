@@ -6,7 +6,7 @@ const Header = () => {
   let history = useHistory();
 
   return (
-    <Box>
+    <Box id="section0">
       <ButtonLink onClick={() => history.push("/register")}>
         <FiCheckSquare /> Cadastro
       </ButtonLink>

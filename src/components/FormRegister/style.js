@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { Button } from "@material-ui/core";
 const rotate = keyframes`
 
     from {
@@ -12,10 +13,19 @@ const rotate = keyframes`
 
 export const BoxForm = styled.form`
   max-width: 500px;
-  width: 100%;
-  margin: 200px auto;
+  width: 85%;
+  margin: 150px auto;
   display: flex;
   flex-direction: column;
+  /* border: 1px solid black; */
+  padding: 70px 0 70px 0;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
+    rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+  border-radius: 25px;
+  @media screen and (max-width: 400px) {
+    margin: 75px auto;
+  }
 `;
 
 export const BoxInput = styled.div`
@@ -47,12 +57,26 @@ export const BoxInputR = styled.div`
     width: 95%;
     margin: 0 auto;
   }
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 30px auto;
+    width: 50%;
+  }
 `;
 export const InputEnvio = styled.input`
-  background-color: white;
+  background-color: transparent;
   width: 50%;
+  max-width: 100px;
   margin: 0 auto;
   cursor: pointer;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  padding: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  text-transform: uppercase;
 `;
 
 export const Modal = styled.div`
@@ -83,4 +107,19 @@ export const Modal = styled.div`
       color: blue;
     }
   }
+`;
+
+export const DateInput = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 400px) {
+    width: 50%;
+    min-width: 200px;
+    margin: 0 auto;
+  }
+`;
+export const BoxSubmit = styled.div`
+  display: flex;
+  justify-content: center;
 `;

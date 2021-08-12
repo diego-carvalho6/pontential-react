@@ -7,17 +7,25 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DateFnsUtils from "@date-io/date-fns";
 import { format } from "date-fns";
-
+import { Link } from "react-scroll";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-import { BoxForm, BoxInput, BoxInputR, InputEnvio, Modal } from "./style";
+import {
+  BoxForm,
+  BoxInput,
+  BoxInputR,
+  BoxSubmit,
+  DateInput,
+  InputEnvio,
+  Modal,
+} from "./style";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import { useHistory } from "react-router";
-
+import { Slide } from "react-awesome-reveal";
 const FormRegister = () => {
   const [selectedDate, setSelectedDate] = useState(
     new Date("2000-01-01T21:11:54")
@@ -62,7 +70,7 @@ const FormRegister = () => {
   };
 
   return (
-    <>
+    <Slide triggerOnce={true} direction="left">
       <Header></Header>
       {loading ? (
         <Modal>
@@ -73,7 +81,8 @@ const FormRegister = () => {
       ) : (
         <></>
       )}
-      <BoxForm error={error} onSubmit={handleSubmit(onSubmit)}>
+
+      <BoxForm onSubmit={handleSubmit(onSubmit)}>
         <Controller
           rules={{ required: true }}
           name="nome"
@@ -111,7 +120,26 @@ const FormRegister = () => {
             </BoxInput>
           )}
         />
-
+        <DateInput>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="block"
+              format="dd/MM/yyyy"
+              margin="normal"
+              id="birthday"
+              label="data de nascimento"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </DateInput>
         <RadioGroup
           aria-label="gender"
           name="gender1"
@@ -140,27 +168,10 @@ const FormRegister = () => {
             />
           </BoxInputR>
         </RadioGroup>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            disableToolbar
-            variant="block"
-            format="dd/MM/yyyy"
-            margin="normal"
-            id="birthday"
-            label="data de nascimento"
-            value={selectedDate}
-            onChange={handleDateChange}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </MuiPickersUtilsProvider>
+
         <InputEnvio type="submit" />
       </BoxForm>
-    </>
+    </Slide>
   );
 };
 export default FormRegister;
