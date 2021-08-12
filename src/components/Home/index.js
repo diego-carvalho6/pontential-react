@@ -12,18 +12,24 @@ import {
   NothingHereBox,
 } from "./style";
 import { set } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 const Home = () => {
+  const history = useHistory();
+
   const [update, setUpdate] = useState(false);
   const [developerArray, setDeveloperArray] = useState([]);
   const [next, setNext] = useState("");
   const [prev, setPrev] = useState("");
-  const [url, setUrl] = useState("http://127.0.0.1:8000/developers?");
+  const [url, setUrl] = useState("http://127.0.0.1:8000/developers?limit=10");
   useEffect(() => {
     axios.get(url).then((res) => {
-      setPrev(res.data.info.prev_page);
-      setNext(res.data.info.next_page);
-      setDeveloperArray(res.data.result);
+      console.log(res);
+      setPrev(res.data.previous);
+      setNext(res.data.next);
+      res.data.results.lenght === 0
+        ? setDeveloperArray(false)
+        : setDeveloperArray(res.data.results);
     });
   }, [url, update]);
 
@@ -38,7 +44,7 @@ const Home = () => {
   return (
     <>
       <Header></Header>
-      {developerArray.length === 0 ? (
+      {!developerArray ? (
         <NothingHereBox>
           <h3>Não há nada aqui</h3>
           <p>Você pode adicionar um novo desenvolvedor...</p>
@@ -53,12 +59,10 @@ const Home = () => {
                 </h3>
                 <p>hobby: {developer.hobby}</p>
                 <p>
-                  <em>data de nascimento: {developer.date}</em>
+                  <em>data de nascimento: {developer.datanascimento}</em>
                 </p>
 
-                <button onClick={() => updateEvent(developer.id)}>
-                  Perfil
-                </button>
+                <button onClick={() => history.push("/update")}>Perfil</button>
               </BoxContent>
             ))}
           </Box>

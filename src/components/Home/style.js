@@ -38,8 +38,19 @@ export const BoxContent = styled.div`
     rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
     rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
   align-items: center;
-  border: 2px solid ${(props) => (props.sucess ? "#42f577" : "#f54277")};
-  background-color: ${(props) => (props.sucess ? "#42f5a4" : "#f54242")};
+  border: 2px solid
+    ${(props) =>
+      props.sucess === "M"
+        ? "#17F5E3"
+        : props.sucess === "F"
+        ? "#ECFA15"
+        : "#D61FF4"};
+  background-color: ${(props) =>
+    props.sucess === "M"
+      ? "#17F5E3"
+      : props.sucess === "F"
+      ? "#ECFA15"
+      : "#D61FF4"};
 `;
 export const BoxGeral = styled.div`
   width: 100%;
