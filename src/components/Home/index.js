@@ -1,7 +1,7 @@
 import axios from "axios";
 import Header from "../Header";
 import { useEffect, useState } from "react";
-import { FiArrowRight, FiArrowLeft } from "react-icons/fi";
+import { FiArrowRight, FiSearch, FiArrowLeft } from "react-icons/fi";
 import { GiSplitCross } from "react-icons/gi";
 import { ImProfile } from "react-icons/im";
 import { VscLoading } from "react-icons/vsc";
@@ -16,6 +16,8 @@ import {
   BoxPage,
   TrashButton,
   ModalLoading,
+  InputSearch,
+  BoxSearch,
 } from "./style";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-scroll";
@@ -32,9 +34,10 @@ const Home = () => {
   const [prev, setPrev] = useState("");
   const [search, setSearch] = useState("");
   const [url, setUrl] = useState(
-    `http://127.0.0.1:8000/developers?limit=9&search=${search}`
+    `http://127.0.0.1:8000/developers?limit=9&search=`
   );
   useEffect(() => {
+    handleUrl();
     setUpdate(false);
     setLoading(true);
     axios
@@ -48,26 +51,36 @@ const Home = () => {
           : setDeveloperArray(res.data.results);
       })
       .catch((e) => setLoading(!loading));
-  }, [url, update]);
+  }, [url, update, search]);
+  console.log(url);
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleUrl = () => {
+    setUrl(`http://127.0.0.1:8000/developers?limit=9&search=${search}`);
+  };
 
   const handleChange = (id) => {
     setModal(!modal);
     setId(id);
   };
+  console.log(search);
 
   return (
     <Slide direction="right" triggerOnce={true}>
       <Header></Header>
+      <BoxSearch>
+        <InputSearch
+          variant="outlined"
+          onChange={(e) => {
+            handleSearch(e);
+          }}
+        />
+        {!search ? <FiSearch></FiSearch> : <></>}
+      </BoxSearch>
 
-      {loading ? (
-        <ModalLoading>
-          <div>
-            <VscLoading />
-          </div>
-        </ModalLoading>
-      ) : (
-        <></>
-      )}
       <Modal open={modal} onClose={() => handleChange(id)}>
         <DeleteDeveloper
           handleChange={handleChange}

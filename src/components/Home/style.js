@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 
 const rotate = keyframes`
 
@@ -183,5 +183,21 @@ export const TrashButton = styled.button`
     width: 15px;
     height: 15px;
     border-radius: 50%;
+  }
+`;
+export const InputSearch = styled(TextField)``;
+
+export const BoxSearch = styled.div`
+  margin: 35px auto 20px auto;
+  width: 100%;
+  max-width: 220px;
+  position: relative;
+  svg {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    width: 30px;
+    height: 30px;
+    opacity: 0.2;
   }
 `;
