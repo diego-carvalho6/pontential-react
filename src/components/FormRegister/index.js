@@ -1,17 +1,20 @@
 import Header from "../Header";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useHistory } from "react-router";
+import { Slide } from "react-awesome-reveal";
 import { VscLoading } from "react-icons/vsc";
+import axios from "axios";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DateFnsUtils from "@date-io/date-fns";
 import { format } from "date-fns";
-import { useParams } from "react-router";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import TextField from "@material-ui/core/TextField";
 
 import {
   BoxForm,
@@ -21,10 +24,7 @@ import {
   InputEnvio,
   Modal,
 } from "./style";
-import TextField from "@material-ui/core/TextField";
-import axios from "axios";
-import { useHistory } from "react-router";
-import { Slide } from "react-awesome-reveal";
+
 const FormRegister = ({ developer }) => {
   const [selectedDate, setSelectedDate] = useState(
     developer
@@ -54,9 +54,10 @@ const FormRegister = ({ developer }) => {
   const onSubmit = (data) => {
     setLoading(!loading);
     data["sexo"] = valueForm;
-    data["datanascimento"] = format(selectedDate, "dd/MM/yyyy");
-    console.log(data.idade);
-    console.log(data.datanascimento);
+
+    data["datanascimento"] = selectedDate?.getDate()
+      ? format(selectedDate, "dd/MM/yyyy")
+      : "01/01/2000";
     developer
       ? axios
           .put(`http://127.0.0.1:8000/developers/${developer.id}`, data)

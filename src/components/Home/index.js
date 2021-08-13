@@ -1,10 +1,10 @@
 import axios from "axios";
 import Header from "../Header";
+import DeleteDeveloper from "../DeleteDeveloper";
 import { useEffect, useState } from "react";
 import { FiArrowRight, FiSearch, FiArrowLeft } from "react-icons/fi";
 import { GiSplitCross } from "react-icons/gi";
 import { ImProfile } from "react-icons/im";
-import { VscLoading } from "react-icons/vsc";
 import Modal from "@material-ui/core/Modal";
 import {
   BoxContent,
@@ -15,14 +15,13 @@ import {
   NothingHereBox,
   BoxPage,
   TrashButton,
-  ModalLoading,
   InputSearch,
   BoxSearch,
 } from "./style";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-scroll";
 import { Slide } from "react-awesome-reveal";
-import DeleteDeveloper from "../DeleteDeveloper";
+
 const Home = () => {
   const history = useHistory();
   const [id, setId] = useState(0);
@@ -37,13 +36,9 @@ const Home = () => {
     `http://127.0.0.1:8000/developers?limit=9&search=`
   );
   useEffect(() => {
-    handleUrl();
-    setUpdate(false);
-    setLoading(true);
     axios
       .get(url)
       .then((res) => {
-        setLoading(false);
         setPrev(res.data.previous);
         setNext(res.data.next);
         res.data.results.lenght === 0
@@ -51,22 +46,17 @@ const Home = () => {
           : setDeveloperArray(res.data.results);
       })
       .catch((e) => setLoading(!loading));
-  }, [url, update, search]);
-  console.log(url);
+  }, [url, update]);
 
-  const handleSearch = (e) => {
+  const handleUrl = (e) => {
+    setUrl(`http://127.0.0.1:8000/developers?limit=9&search=${e.target.value}`);
     setSearch(e.target.value);
-  };
-
-  const handleUrl = () => {
-    setUrl(`http://127.0.0.1:8000/developers?limit=9&search=${search}`);
   };
 
   const handleChange = (id) => {
     setModal(!modal);
     setId(id);
   };
-  console.log(search);
 
   return (
     <Slide direction="right" triggerOnce={true}>
@@ -75,7 +65,7 @@ const Home = () => {
         <InputSearch
           variant="outlined"
           onChange={(e) => {
-            handleSearch(e);
+            handleUrl(e);
           }}
         />
         {!search ? <FiSearch></FiSearch> : <></>}
@@ -84,7 +74,8 @@ const Home = () => {
       <Modal open={modal} onClose={() => handleChange(id)}>
         <DeleteDeveloper
           handleChange={handleChange}
-          update={setUpdate}
+          setUpdate={setUpdate}
+          update={update}
           id={id}
         />
       </Modal>

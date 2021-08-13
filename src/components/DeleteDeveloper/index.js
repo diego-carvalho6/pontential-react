@@ -1,16 +1,15 @@
 import axios from "axios";
 import { useState } from "react";
-import { useHistory } from "react-router";
-const DeleteDeveloper = ({ id, update, handleChange }) => {
+import { BoxAbsolute } from "./style";
+const DeleteDeveloper = ({ id, setUpdate, update, handleChange }) => {
   const [deletedDeveloper, setDeletedDeveloper] = useState(false);
-  const history = useHistory();
   const handleData = () => {
     axios
       .delete(`http://127.0.0.1:8000/developers/${id}`)
       .then((res) => {
         setDeletedDeveloper(true);
         setTimeout(() => {
-          update(true);
+          setUpdate(!update);
           handleChange(id);
         }, 1300);
       })
@@ -18,7 +17,7 @@ const DeleteDeveloper = ({ id, update, handleChange }) => {
   };
 
   return (
-    <div>
+    <BoxAbsolute>
       {!deletedDeveloper ? (
         <div>
           <h4>Tem certeza que deseja deletar?</h4>
@@ -29,7 +28,7 @@ const DeleteDeveloper = ({ id, update, handleChange }) => {
           <h4>Deletado!</h4>
         </div>
       )}
-    </div>
+    </BoxAbsolute>
   );
 };
 export default DeleteDeveloper;
